@@ -1,0 +1,31 @@
+# Output directory - we'll mount this as a volume
+output/
+
+# Git files
+.git/
+.gitignore
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Docker files (no need to copy into image)
+Dockerfile
+.dockerignore
+
+# README (optional - you might want to include this)
+# README.md 
