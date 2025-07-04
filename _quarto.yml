@@ -1,0 +1,44 @@
+project:
+  type: book
+  output-dir: output
+
+book:
+  title: "Advanced Data Analysis in Modern Business Intelligence"
+  author: "Research Team"
+  date: "2024"
+  chapters:
+    - index.qmd
+    - 01-introduction.md
+    - 02-methodology.md
+    - 03-results.md
+    - 04-conclusion.md
+    - references.qmd
+
+bibliography: references.bib
+# csl: chicago-author-date.csl  # Temporarily disabled due to CSL parsing error
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: tango
+    embed-resources: true
+    
+  pdf:
+    documentclass: book
+    geometry: margin=1in
+    fontsize: 12pt
+    linestretch: 1.5
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: tango
+    pdf-engine: pdflatex
+    
+  docx:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: tango 

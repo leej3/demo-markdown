@@ -1,43 +1,11 @@
----
-title: "Advanced Data Analysis in Modern Business Intelligence"
-author: "Research Team"
-date: "2024"
-bibliography: references.bib
-toc: true
-toc-depth: 3
-number-sections: true
-geometry: margin=1in
-fontsize: 12pt
-linestretch: 1.5
----
+# References {.unnumbered}
 
-\newpage
+::: {#refs}
+:::
 
-{{< include 01-introduction.md >}}
+# Appendices {.unnumbered}
 
-\newpage
-
-{{< include 02-methodology.md >}}
-
-\newpage
-
-{{< include 03-results.md >}}
-
-\newpage
-
-{{< include 04-conclusion.md >}}
-
-\newpage
-
-# References {-}
-
-<div id="refs"></div>
-
-\newpage
-
-# Appendices {-}
-
-## Appendix A: Data Sources {-}
+## Appendix A: Data Sources {.unnumbered}
 
 The following data sources were utilized in this analysis:
 
@@ -48,7 +16,7 @@ The following data sources were utilized in this analysis:
 | Financial Records | Transaction Data | 2022-2024 | 2,800,000 |
 | External APIs | Real-time Data | 2024 | Streaming |
 
-## Appendix B: Statistical Methods {-}
+## Appendix B: Statistical Methods {.unnumbered}
 
 This study employed several statistical methods:
 

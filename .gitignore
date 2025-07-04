@@ -1,0 +1,74 @@
+/.quarto/
+
+# LaTeX intermediate files
+*.aux
+*.log
+*.tex
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ind
+*.ilg
+*.lot
+*.lof
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build output files
+*.pdf
+*.docx
+*.html
+output/
+
+# Log files
+*.log
+
+# Temporary files
+*~
+*.tmp
+*.temp
+*.swp
+*.swo
+*#
+.#*
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js (if using any JS tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if using any Python tools)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt

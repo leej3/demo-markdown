@@ -1,69 +1,37 @@
 #!/bin/bash
 
-# Build script for converting markdown document to various formats using pandoc
+# Build script for converting markdown document to various formats using Quarto
 
-echo "Building Advanced Data Analysis document..."
+echo "Building Advanced Data Analysis document with Quarto..."
 
-# Create output directory
+# Check if quarto is installed
+if ! command -v quarto &> /dev/null; then
+    echo "Error: Quarto CLI is not installed. Please install it from https://quarto.org/docs/get-started/"
+    echo "Installation instructions:"
+    echo "  macOS: brew install quarto"
+    echo "  Linux: Download from https://quarto.org/docs/get-started/"
+    echo "  Windows: Download from https://quarto.org/docs/get-started/"
+    exit 1
+fi
+
+# Create output directory (Quarto will create it automatically, but just in case)
 mkdir -p output
 
-# Build PDF using LaTeX
-echo "Building PDF..."
-pandoc main-consolidated.md \
-  --from markdown+yaml_metadata_block \
-  --to pdf \
-  --output output/advanced-data-analysis.pdf \
-  --pdf-engine=pdflatex \
-  --toc \
-  --toc-depth=3 \
-  --number-sections \
-  --bibliography=references.bib \
-  --citeproc \
-  --variable geometry:margin=1in \
-  --variable fontsize=12pt \
-  --variable linestretch=1.5 \
-  --highlight-style=tango
-
-# Build DOCX for Word
-echo "Building DOCX..."
-pandoc main-consolidated.md \
-  --from markdown+yaml_metadata_block \
-  --to docx \
-  --output output/advanced-data-analysis.docx \
-  --toc \
-  --toc-depth=3 \
-  --number-sections \
-  --bibliography=references.bib \
-  --citeproc
-
-# Build HTML for web viewing
-echo "Building HTML..."
-pandoc main-consolidated.md \
-  --from markdown+yaml_metadata_block \
-  --to html \
-  --output output/advanced-data-analysis.html \
-  --toc \
-  --toc-depth=3 \
-  --number-sections \
-  --bibliography=references.bib \
-  --citeproc \
-  --css=styles.css \
-  --highlight-style=tango
-
-# Build standalone HTML with embedded resources
-echo "Building standalone HTML..."
-pandoc main-consolidated.md \
-  --from markdown+yaml_metadata_block \
-  --to html \
-  --output output/advanced-data-analysis-standalone.html \
-  --toc \
-  --toc-depth=3 \
-  --number-sections \
-  --bibliography=references.bib \
-  --citeproc \
-  --embed-resources \
-  --standalone \
-  --highlight-style=tango
+# Check if specific format is requested
+if [ "$1" = "html" ]; then
+    echo "Building HTML format..."
+    quarto render --to html
+elif [ "$1" = "pdf" ]; then
+    echo "Building PDF format..."
+    quarto render --to pdf
+elif [ "$1" = "docx" ]; then
+    echo "Building DOCX format..."
+    quarto render --to docx
+else
+    # Build all formats using Quarto
+    echo "Building all formats..."
+    quarto render
+fi
 
 echo "Build complete! Check the output directory for generated files."
 echo ""
@@ -72,6 +40,9 @@ ls -la output/
 
 echo ""
 echo "To build individual formats:"
-echo "PDF:  pandoc main-consolidated.md --pdf-engine=pdflatex --toc --number-sections --bibliography=references.bib --citeproc -o output/document.pdf"
-echo "DOCX: pandoc main-consolidated.md --toc --number-sections --bibliography=references.bib --citeproc -o output/document.docx"
-echo "HTML: pandoc main-consolidated.md --toc --number-sections --bibliography=references.bib --citeproc -o output/document.html" 
+echo "HTML: quarto render --to html"
+echo "PDF:  quarto render --to pdf"
+echo "DOCX: quarto render --to docx"
+echo ""
+echo "To preview the document:"
+echo "quarto preview" 

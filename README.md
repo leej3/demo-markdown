@@ -1,15 +1,16 @@
 # Advanced Data Analysis Document
 
-A comprehensive example of structuring complex documents in markdown with multiple sections, tables, and academic references. This project demonstrates how to create professional research documents using markdown that can be converted to PDF, DOCX, and HTML using pandoc.
+A comprehensive example of structuring complex documents in markdown with multiple sections, tables, and academic references. This project demonstrates how to create professional research documents using markdown that can be converted to PDF, DOCX, and HTML using **Quarto**.
 
 ## Features
 
 - **Modular Structure**: Each chapter in its own markdown file for easy editing
+- **No Consolidation Required**: Quarto natively supports file inclusion without preprocessing
 - **Rich Content**: Complex tables, statistical data, code blocks, and mathematical expressions
 - **Academic Citations**: Proper BibTeX references with automatic formatting
 - **Multiple Output Formats**: PDF, DOCX, HTML, and standalone HTML
 - **Professional Formatting**: YAML front matter with table of contents, numbering, and styling
-- **Modern Pandoc**: Uses latest pandoc syntax with built-in `--citeproc`
+- **Modern Quarto**: Uses latest Quarto features with built-in citation processing
 
 ## Project Structure
 
@@ -17,9 +18,10 @@ A comprehensive example of structuring complex documents in markdown with multip
 demo-markdown/
 ├── README.md                           # This file
 ├── Dockerfile                          # Container for consistent builds
-├── build.sh                            # Build script for all formats
-├── main.md                             # Master file with includes (Quarto-style)
-├── main-consolidated.md                # Single file with all content (pandoc-compatible)
+├── build.sh                            # Build script for all formats (Quarto)
+├── _quarto.yml                         # Quarto project configuration
+├── index.qmd                           # Front page/preface
+├── references.qmd                      # References and appendices
 ├── references.bib                      # Academic references in BibTeX format
 ├── chicago-author-date.csl            # Citation style file
 ├── 01-introduction.md                  # Introduction section
@@ -27,63 +29,54 @@ demo-markdown/
 ├── 03-results.md                       # Results section
 ├── 04-conclusion.md                    # Conclusion section
 └── output/                             # Generated documents
-    ├── advanced-data-analysis.pdf      # PDF version
-    ├── advanced-data-analysis.docx     # Word document
-    ├── advanced-data-analysis.html     # HTML version
-    └── advanced-data-analysis-standalone.html
+    ├── index.html                      # HTML book version
+    ├── 01-introduction.html            # Individual chapter HTML
+    ├── 02-methodology.html             # Individual chapter HTML
+    ├── 03-results.html                 # Individual chapter HTML
+    ├── 04-conclusion.html              # Individual chapter HTML
+    ├── references.html                 # References HTML
+    └── Advanced-Data-Analysis-in-Modern-Business-Intelligence.docx
 ```
 
 ## Prerequisites
 
 ### Local Installation
 
-You need the following tools installed:
-
-- **pandoc** (version 2.11 or later)
-- **pdflatex** (for PDF generation)
-- **Basic LaTeX packages** (usually included with TeX Live or MiKTeX)
+You need **Quarto** installed:
 
 #### macOS Installation
 ```bash
-# Install pandoc
-brew install pandoc
+# Install Quarto
+brew install quarto
 
-# Install LaTeX (MacTeX)
+# LaTeX is optional but recommended for PDF generation
 brew install --cask mactex
 ```
 
 #### Ubuntu/Debian Installation
 ```bash
-# Install pandoc
-sudo apt-get update
-sudo apt-get install pandoc
+# Download and install Quarto
+wget https://github.com/quarto-dev/quarto-cli/releases/latest/download/quarto-linux-amd64.deb
+sudo dpkg -i quarto-linux-amd64.deb
 
-# Install LaTeX
+# Install LaTeX for PDF generation
 sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
 ```
 
 #### Windows Installation
-1. Download and install [pandoc](https://pandoc.org/installing.html)
-2. Install [MiKTeX](https://miktex.org/download) or [TeX Live](https://www.tug.org/texlive/)
+1. Download and install [Quarto](https://quarto.org/docs/get-started/)
+2. Install [MiKTeX](https://miktex.org/download) or [TeX Live](https://www.tug.org/texlive/) for PDF generation
 
 ### Docker Installation (Recommended)
 
-Alternatively, use Docker for consistent builds without installing dependencies:
+Use Docker for consistent builds without installing dependencies:
 
-**Option 1: Optimized Build (Fast)**
 ```bash
-# Build the optimized Docker image (only installs essential packages)
-#  NOTE: On apple silicon set the following env var: DOCKER_DEFAULT_PLATFORM=linux/amd64
+# Build the Docker image
 docker build -t markdown-doc .
 
 # Run the container to build documents
 docker run --rm -v $(pwd)/output:/app/output markdown-doc
-```
-
-**Option 2: Pre-built Image (Fastest)**
-```bash
-# Use pandoc image directly (no build required)
-docker run --rm -v $(pwd):/data pandoc/latex:latest /bin/bash -c "cd /data && ./build.sh"
 ```
 
 ## Usage
@@ -103,86 +96,93 @@ docker run --rm -v $(pwd):/data pandoc/latex:latest /bin/bash -c "cd /data && ./
 
 ### Individual Format Commands
 
-**PDF:**
+**All formats:**
 ```bash
-pandoc main-consolidated.md \
-  --pdf-engine=pdflatex \
-  --toc \
-  --number-sections \
-  --bibliography=references.bib \
-  --citeproc \
-  -o output/document.pdf
+quarto render
 ```
 
-**DOCX:**
+**HTML only:**
 ```bash
-pandoc main-consolidated.md \
-  --toc \
-  --number-sections \
-  --bibliography=references.bib \
-  --citeproc \
-  -o output/document.docx
+quarto render --to html
 ```
 
-**HTML:**
+**DOCX only:**
 ```bash
-pandoc main-consolidated.md \
-  --toc \
-  --number-sections \
-  --bibliography=references.bib \
-  --citeproc \
-  -o output/document.html
+quarto render --to docx
+```
+
+**PDF only:**
+```bash
+quarto render --to pdf
+```
+
+**Preview during development:**
+```bash
+quarto preview
 ```
 
 ### Using Docker
 
-**Option 1: Custom Image (Optimized)**
 ```bash
 # Build all formats
 docker run --rm -v $(pwd)/output:/app/output markdown-doc
 
-# Build specific format  
-docker run --rm -v $(pwd)/output:/app/output markdown-doc ./build.sh pdf
-```
-
-**Option 2: Pre-built Image (No Build Time)**
-```bash
-# Build all formats
-docker run --rm -v $(pwd):/data pandoc/latex:latest /bin/bash -c "cd /data && ./build.sh"
-
 # Build specific format
-docker run --rm -v $(pwd):/data pandoc/latex:latest /bin/bash -c "cd /data && ./build.sh pdf"
+docker run --rm -v $(pwd):/data -w /data quarto/quarto:latest quarto render --to html
 ```
 
 ## Customization
 
 ### Editing Content
 
-1. **For major changes**: Edit the individual section files (`01-introduction.md`, `02-methodology.md`, etc.)
-2. **For pandoc builds**: Update `main-consolidated.md` with your changes
+1. **Edit individual section files** (`01-introduction.md`, `02-methodology.md`, etc.)
+2. **No consolidation needed** - Quarto automatically includes files based on `_quarto.yml`
 3. **For references**: Add new entries to `references.bib` in BibTeX format
 
 ### Styling
 
-- **PDF styling**: Modify YAML front matter in `main-consolidated.md`
-- **HTML styling**: Create a `styles.css` file and reference it in the build script
-- **Citation style**: Replace `chicago-author-date.csl` with your preferred CSL file
+- **All formats**: Modify `_quarto.yml` configuration
+- **HTML styling**: Add custom CSS to `_quarto.yml`
+- **Citation style**: Update `csl` field in `_quarto.yml` with your preferred CSL file
 
-### YAML Front Matter Options
+### Quarto Configuration (_quarto.yml)
 
 ```yaml
----
-title: "Your Document Title"
-author: "Author Name"
-date: "2024"
+project:
+  type: book
+  output-dir: output
+
+book:
+  title: "Your Document Title"
+  author: "Author Name"
+  date: "2024"
+  chapters:
+    - index.qmd
+    - 01-introduction.md
+    - 02-methodology.md
+    - 03-results.md
+    - 04-conclusion.md
+    - references.qmd
+
 bibliography: references.bib
-toc: true                    # Table of contents
-toc-depth: 3                 # TOC depth
-number-sections: true        # Number sections
-geometry: margin=1in         # Page margins
-fontsize: 12pt              # Font size
-linestretch: 1.5            # Line spacing
----
+csl: chicago-author-date.csl
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    
+  pdf:
+    documentclass: book
+    geometry: margin=1in
+    fontsize: 12pt
+    linestretch: 1.5
+    
+  docx:
+    toc: true
+    number-sections: true
 ```
 
 ## Sample Content
@@ -196,23 +196,37 @@ The document includes realistic examples of:
 - **Academic Citations**: Proper in-text citations and bibliography
 - **Professional Structure**: Abstract, methodology, results, conclusion
 
+## Advantages of Quarto
+
+- **No consolidation required**: Work directly with individual markdown files
+- **Better preview**: Live preview during development
+- **Integrated processing**: Built-in citation and cross-reference processing
+- **Flexible output**: Multiple formats from single source
+- **Modern tooling**: Active development and excellent documentation
+
 ## Troubleshooting
 
 ### Common Issues
 
-**1. LaTeX Unicode Errors**
+**1. Quarto not found**
+```
+Error: quarto command not found
+```
+- Solution: Install Quarto from [quarto.org](https://quarto.org/docs/get-started/)
+
+**2. LaTeX Unicode Errors (PDF)**
 ```
 Error: Unicode character not set up for use with LaTeX
 ```
 - Solution: Replace Unicode characters (₁, ₂, ²) with ASCII equivalents (1, 2, ^2)
 
-**2. Missing pandoc-citeproc**
+**3. Citation Style Issues**
 ```
-Error: Could not find executable pandoc-citeproc
+CiteprocParseError: macro editor not found
 ```
-- Solution: Use `--citeproc` instead of `--filter pandoc-citeproc` (fixed in this project)
+- Solution: Use a standard CSL file or disable CSL temporarily
 
-**3. PDF Generation Fails**
+**4. PDF Generation Fails**
 ```
 Error producing PDF
 ```
@@ -220,19 +234,7 @@ Error producing PDF
 - Check for special characters that LaTeX cannot handle
 - Use Docker for consistent environment
 
-**4. Citations Not Working**
-```
-Warning: Failed to parse bibliography
-```
-- Validate your BibTeX entries in `references.bib`
-- Ensure citation keys match between markdown and bibliography
-
 ### Docker Troubleshooting
-
-**Slow Docker Build:**
-The Dockerfile is optimized to install only essential packages. If you need additional LaTeX packages, either:
-- Add them to the Dockerfile's `tlmgr install` line, or  
-- Use Option 2 (pre-built image) which includes a full LaTeX installation
 
 **Permission Issues:**
 ```bash
@@ -261,11 +263,11 @@ This project is provided as an example and template. Feel free to use and modify
 
 ## References
 
-- [Pandoc Documentation](https://pandoc.org/MANUAL.html)
+- [Quarto Documentation](https://quarto.org/docs/)
+- [Quarto Books](https://quarto.org/docs/books/)
 - [BibTeX Format Guide](https://www.bibtex.org/Format/)
 - [Citation Style Language](https://citationstyles.org/)
-- [LaTeX Documentation](https://www.latex-project.org/help/documentation/)
 
 ---
 
-*This document was generated using the same markdown-to-multiple-formats process it demonstrates.* 
+*This document was generated using the same markdown-to-multiple-formats process it demonstrates, now powered by Quarto.* 

@@ -39,11 +39,11 @@ Comprehensive cost analysis revealed substantial savings across operational cate
 
 ```
 Total Cost Savings by Category:
-├── Personnel Costs: 23% reduction
-├── Technology Infrastructure: 18% reduction
-├── Data Management: 34% reduction
-├── Reporting and Analytics: 41% reduction
-└── Decision Support: 28% reduction
+- Personnel Costs: 23% reduction
+- Technology Infrastructure: 18% reduction
+- Data Management: 34% reduction
+- Reporting and Analytics: 41% reduction
+- Decision Support: 28% reduction
 ```
 
 ## Technology Platform Comparison
@@ -130,13 +130,13 @@ Technology companies showed the highest rates of advanced feature adoption:
 
 ### Hypothesis Testing Results
 
-**H₁**: BI implementation significantly improves organizational performance
+**H1**: BI implementation significantly improves organizational performance
 - *Result*: **Supported** (p < 0.001, Cohen's d = 1.24)
 
-**H₂**: Cloud-native solutions provide superior ROI compared to on-premise implementations
+**H2**: Cloud-native solutions provide superior ROI compared to on-premise implementations
 - *Result*: **Supported** (p < 0.01, Cohen's d = 0.67)
 
-**H₃**: Larger organizations achieve better BI outcomes than smaller organizations
+**H3**: Larger organizations achieve better BI outcomes than smaller organizations
 - *Result*: **Partially Supported** (p < 0.05 for ROI, p > 0.05 for user satisfaction)
 
 ### Regression Analysis
@@ -148,15 +148,15 @@ BI Success Score = 2.34 + 0.42(Data Quality) + 0.38(User Training)
                  + 0.29(Executive Support) + 0.25(Technical Infrastructure)
                  + 0.19(Change Management)
 
-R² = 0.73, F(5,121) = 65.2, p < 0.001
+R^2 = 0.73, F(5,121) = 65.2, p < 0.001
 ```
 
 **Variable Significance**:
-- Data Quality: β = 0.42, p < 0.001
-- User Training: β = 0.38, p < 0.001  
-- Executive Support: β = 0.29, p < 0.01
-- Technical Infrastructure: β = 0.25, p < 0.01
-- Change Management: β = 0.19, p < 0.05
+- Data Quality: beta = 0.42, p < 0.001
+- User Training: beta = 0.38, p < 0.001  
+- Executive Support: beta = 0.29, p < 0.01
+- Technical Infrastructure: beta = 0.25, p < 0.01
+- Change Management: beta = 0.19, p < 0.05
 
 ## Qualitative Insights
 

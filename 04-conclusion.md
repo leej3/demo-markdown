@@ -108,11 +108,11 @@ Organizations should define specific, measurable outcomes before beginning BI im
 
 ```
 Data Quality Dimensions:
-├── Completeness: 95%+ target
-├── Accuracy: 98%+ target  
-├── Consistency: 97%+ target
-├── Timeliness: <24 hours for critical data
-└── Validity: 99%+ conformance to standards
+- Completeness: 95%+ target
+- Accuracy: 98%+ target
+- Consistency: 97%+ target
+- Timeliness: <24 hours for critical data
+- Validity: 99%+ conformance to standards
 ```
 
 **Master Data Management**: Establish centralized management of key business entities (customers, products, suppliers) to ensure consistency across all analytical applications.
